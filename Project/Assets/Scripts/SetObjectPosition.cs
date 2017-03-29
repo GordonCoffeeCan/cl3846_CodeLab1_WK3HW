@@ -34,7 +34,12 @@ public class SetObjectPosition : MonoBehaviour {
         Vector3 _screenPosision = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
         _screenSize = _screenPosision;
 
-        _spaceShip.position = new Vector3(-_screenPosision.x + 1.18f, -_screenPosision.y + 1.05f, 0);
+        if (this.gameObject.tag != "background") {
+            _spaceShip.position = new Vector3(-_screenPosision.x + 1.18f, -_screenPosision.y + 1.05f, 0);
+        } else {
+            this.transform.localScale = new Vector2((_screenSize.x * 2) / this.GetComponent<SpriteRenderer>().bounds.size.x, (_screenSize.y * 2) / this.GetComponent<SpriteRenderer>().bounds.size.y);
+        }
+        
     }
 
     private void FixedUpdate() {
@@ -42,6 +47,9 @@ public class SetObjectPosition : MonoBehaviour {
     }
 
     private void SpawnTarget() {
-        Instantiate(target, new Vector3(_screenSize.x + target.GetComponent<SpriteRenderer>().bounds.size.x, Random.Range(_screenSize.y - target.GetComponent<SpriteRenderer>().bounds.size.y, target.GetComponent<SpriteRenderer>().bounds.size.y - _screenSize.y), 0), Quaternion.identity);
+        if (this.gameObject.tag != "background") {
+            Instantiate(target, new Vector3(_screenSize.x + target.GetComponent<SpriteRenderer>().bounds.size.x, Random.Range(_screenSize.y - target.GetComponent<SpriteRenderer>().bounds.size.y, target.GetComponent<SpriteRenderer>().bounds.size.y - _screenSize.y), 0), Quaternion.identity);
+
+        }
     }
 }
